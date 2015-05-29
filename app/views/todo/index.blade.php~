@@ -1,0 +1,51 @@
+@extends('layouts.main')
+
+@section('todos')
+
+<div class="row-fluid">
+	<div class="row-fluid" style="margin-bottom: 20px;">
+		<h1>
+			<form action="newtodo" method="post" class="form-inline">
+				 <div class="form-group">
+				    <label for="newtodo">Let's Do Awsome</label>
+				    <input type="text" id="newtodo" class="form-control" name="todo" placeholder="what i am going to do ?"/>
+				    <input type="submit" class="btn btn-success" value="create New"/>
+				  </div>
+			</form>
+		</h1>
+	</div>
+	
+	
+
+@if(!empty($allTodos))
+<div class="table-responsive">
+<table class="table table-striped">
+	<tbody>
+	<tr>
+		<th>Todo</th>	
+		<th>Is it Done ?</th>
+		<th>Created</th>	
+	</tr>
+	@foreach($allTodos as $todo)
+	<tr>
+		<td>{{$todo->todo}}</td>	
+		<td>
+			<form action="updatetodo" method="post">
+				<input type="hidden" name="todo_id" value="{{$todo->id}}"/>
+				<input type="submit" value="x" class="btn btn-warning"/>
+			</form>
+		</td>
+		<td class="hidden-xs">{{ date("d M Y", strtotime($todo->created_at))}}</td>
+	</tr>
+	@endforeach
+	</tbody>
+</table>
+</div>
+@else
+	<div class="jumbotron">
+		<h3>Nothing todo, Let's do something :P</h3>
+	</div>
+@endif
+
+ </div>
+@endsection

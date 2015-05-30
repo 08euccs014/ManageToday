@@ -21,7 +21,7 @@
 				<form action="{{ url('/') }}/" method="post" class="form-inline">
 					@if(!$archieve)
 					<input type="hidden" name="archieve"  value="1"/>
-					<button class="btn btn-default"><i class="glyphicon glyphicon-inbox"></i> Archieve</button>
+					<button class="btn btn-default"><i class="glyphicon glyphicon-inbox"></i> Track Your Today</button>
 					@else
 					<input type="hidden" name="archieve"  value="0"/>
 					<button class="btn btn-default"><i class="glyphicon glyphicon-home"></i> Home</button>					
@@ -37,8 +37,8 @@
 	<tbody>
 	<tr>
 		<th>Todo</th>	
-		<th>Is it Done ?</th>
-		<th  class="hidden-xs">Created</th>	
+		<th>@if(!$archieve) Is it Done ? @else Don't need ? @endif</th>
+		<th  class="hidden-xs">@if(!$archieve) Created @else DoneOn @endif</th>	
 	</tr>
 	@foreach($allTodos as $todo)
 	<tr>
@@ -47,7 +47,7 @@
 			<form action="updatetodo" method="post">
 				<input type="hidden" name="todo_id" value="{{$todo->id}}"/>
 				@if($todo->status == 0)
-				<button class="btn btn-warning"><i class="glyphicon glyphicon-hdd"></i></button>
+				<button class="btn btn-warning"><i class="glyphicon glyphicon-saved"></i></button>
 				@else
 				<input type="hidden" name="delete" value="1"/>
 				<button class="btn btn-danger"><i class="glyphicon glyphicon-trash"></i></button>
@@ -55,7 +55,7 @@
 			</form>
 		</td>
 
-		<td class="hidden-xs">@if(date("d M Y", strtotime($todo->created_at)) == $today) Today @else {{ date("d M Y", strtotime($todo->created_at))}} @endif</td>
+		<td class="hidden-xs">@if(date("d M Y", strtotime($todo->updated_at)) == $today) Today @else {{ date("d M Y", strtotime($todo->created_at))}} @endif</td>
 	</tr>
 	@endforeach
 	</tbody>
